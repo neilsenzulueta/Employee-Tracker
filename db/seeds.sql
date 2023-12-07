@@ -1,4 +1,4 @@
-USE employess_db
+USE employees_db
 
 INSERT INTO department (dept_name) VALUES
 ('Engineering'),
