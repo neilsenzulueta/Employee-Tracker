@@ -24,8 +24,8 @@ const mainMenu = () => {
         type: 'list',
         choices: ['View all departments', 'View all roles', 'View all employees', 'Add a department', 'Add a role', 'Add an employee', 'Update an employee role'],
     })
-    .then(responses => {
-        switch (responses.menu){
+    .then(choices => {
+        switch (choices.menu){
             case 'View all departments':
                 viewDepartment();
                 break;
@@ -73,6 +73,85 @@ const viewEmployees = () => {
         if (err) throw err;
         console.table(res);
         mainMenu();
+    });
+};
+
+const addDepartment = () => {
+    inquirer.prompt([
+        {
+            name: 'department',
+            type: 'input',
+            message: 'What is the name of the department?'
+        },
+    ])
+    .then(responses => {
+        connection.query('INSERT INTO department (dept_name) VALUES (?)',
+        [responses.department], function (err,res) {
+            if (err) throw err;
+            console.log(`Added ${responses.department} to the database`);
+            mainMenu();
+        });
+    });
+};
+
+const addRole = () => {
+    inquirer.prompt([
+        {
+            name: 'roleTitle',
+            type: 'input',
+            message: 'What is the name of the role?',
+        },
+        {
+            name: 'roleSalary',
+            type: 'input',
+            message: 'What is the salary of the role?',
+        },
+        {
+            name: 'deptID',
+            type: 'input',
+            message: 'What is the department ID number?',
+        },
+    ])
+    .then(responses => {
+        connection.query('INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)',
+        [responses.roleTitle, responses.roleSalary, responses.deptID], function (err,res) {
+            if (err) throw err;
+            console.log(`Added ${responses.roleTitle} to database`);
+            mainMenu();
+        });
+    });
+};
+
+const addEmployee = () => {
+    inquirer.prompt([
+        {
+            name: 'first',
+            type: 'input',
+            message: "What is the employee's first name?",
+        },
+        {
+            name: 'last',
+            type: 'input',
+            message: "What is the employee's last name?",
+        },
+        {
+            name: 'roleID',
+            type: 'input',
+            message: "What is the employee's role ID?",
+        },
+        {
+            name: 'managerID',
+            type: 'input',
+            message: "What is the employee's manager ID?",
+        },
+    ])
+    .then(responses => {
+        connection.query('INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)',
+        [responses.first, responses.last, responses.roleID, responses.managerID], function (err,res) {
+            if (err) throw err;
+            console.log(`Added ${responses.first} ${responses.last} to database`);
+            mainMenu();
+        });
     });
 };
 
