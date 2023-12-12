@@ -155,6 +155,29 @@ const addEmployee = () => {
     });
 };
 
+const updateEmployeeRole = () => {
+    inquirer.prompt([
+        {
+            name: 'roleID',
+            type: 'input',
+            message: 'Enter employee id',
+        },
+        {
+            name: 'ID',
+            type: 'input',
+            message: 'Enter updated/new role ID',
+        },
+    ])
+    .then(responses => {
+        connection.query('UPDATE employee SET role_id=? WHERE id=?',
+        [responses.ID, responses.roleID], function (err,res) {
+            if (err) throw err;
+            console.log("Updated employee's role");
+            mainMenu();
+        });
+    });
+};
+
 
 
 
