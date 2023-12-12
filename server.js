@@ -1,5 +1,6 @@
-const mysql = require('mysql2')
-const inquirer = require('inquirer')
+const mysql = require('mysql2');
+const inquirer = require('inquirer');
+const consoleTable = require('console.table');
 
 require('dotenv').config();
 
@@ -10,7 +11,54 @@ const connection = mysql.createConnection({
     database: 'employees_db',
 });
 
+connection.connect(err => {
+    if (err) throw err;
+    console.log("Employee Manager");
+    mainMenu();
+});
 
+const mainMenu = () => {
+    inquirer.prompt({
+        message: 'What would you like to do today?',
+        name: 'menu',
+        type: 'list',
+        choices: ['View all departments', 'View all roles', 'View all employees', 'Add a department', 'Add a role', 'Add an employee', 'Update an employee role'],
+    })
+    .then(responses => {
+        switch (responses.menu){
+            case 'View all departments':
+                viewDepartment();
+                break;
+            case 'View all roles':
+                viewRoles();
+                break;
+            case 'View all employees':
+                viewEmployees();
+                break;
+            case 'Add a department':
+                addDepartment();
+                break;
+            case 'Add a role':
+                addRole();
+                break;
+            case 'Add an employee':
+                addEmployee();
+                break;
+            case 'Update an employee role':
+                updateEmployeeRole();
+                break;
+            default: connection.end();
+        }
+    });
+};
+
+const viewDepartment = () => {
+    connection.query('SELECT * FROM department', function (err,res) {
+        if (err) throw err;
+        console.table(res);
+        mainMenu();
+    });
+};
 
 
 
