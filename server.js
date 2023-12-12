@@ -60,6 +60,22 @@ const viewDepartment = () => {
     });
 };
 
+const viewRoles = () => {
+    connection.query('SELECT * FROM role', function (err,res) {
+        if (err) throw err;
+        console.table(res);
+        mainMenu();
+    });
+};
+
+const viewEmployees = () => {
+    connection.query('SELECT * FROM employee', function (err,res) {
+        if (err) throw err;
+        console.table(res);
+        mainMenu();
+    });
+};
+
 
 
 
