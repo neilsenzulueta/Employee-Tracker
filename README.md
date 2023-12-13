@@ -16,7 +16,7 @@ My motivation for this challenge was to build a command-line application from sc
 
 ## Installation 
 
-The following commands will help install the necessary packages for the application. 
+The following commands will help install the necessary packages for this application. 
 * `npm i inquirer@8.2.4` to install inquirer. 
 * `npm install --save mysql2` to install MySQL.
 * `npm install console.table --save` to install console.table
